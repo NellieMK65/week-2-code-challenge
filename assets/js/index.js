@@ -79,14 +79,11 @@ async function renderCharacterDetails(passedCharacter) {
 
 	addVotesButton.addEventListener('click', (e) => {
 		e.preventDefault();
-		e.stopImmediatePropagation();
 
+		// Add one vote to existing votes
 		character.votes = character.votes += 1;
+
 		updateCharacterVotes(character);
-
-		// voteParagraph.innerText = `Votes: ${character.votes}`;
-
-		return false;
 	});
 
 	// Reset votes button
@@ -97,7 +94,8 @@ async function renderCharacterDetails(passedCharacter) {
 		e.preventDefault();
 
 		character.votes = 0;
-		voteParagraph.innerText = `Votes: 0`;
+
+		resetCharacterVotes(character);
 	});
 
 	// Attach all elements
@@ -112,6 +110,20 @@ async function renderCharacterDetails(passedCharacter) {
 
 // Update the votes of a single character
 function updateCharacterVotes(character) {
+	fetch(`${BASE_URL}/characters/${character.id}`, {
+		method: 'PUT',
+		headers,
+		body: JSON.stringify(character),
+	})
+		.then((res) => res.json())
+		.then((character) => {
+			renderCharacterDetails(character);
+		})
+		.catch((err) => console.log(err));
+}
+
+// Reset the votes of one character
+function resetCharacterVotes(character) {
 	fetch(`${BASE_URL}/characters/${character.id}`, {
 		method: 'PUT',
 		headers,
