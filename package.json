@@ -1,0 +1,11 @@
+{
+	"name": "week-2-code-challenge",
+	"version": "1.0.0",
+	"description": "<div align=\"center\"> <h1>Week Two Code challenge</h1> <p>This project incorporates the three pillars of web programming to create a simple website</p> </div>",
+	"main": "index.js",
+	"scripts": {
+		"db": "json-server --watch assets/db/db.json"
+	},
+	"author": "NellieMK65",
+	"license": "ISC"
+}
