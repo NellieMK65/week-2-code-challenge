@@ -79,9 +79,21 @@ async function renderCharacterDetails(passedCharacter) {
 		voteParagraph.innerText = `Votes: ${newVote}`;
 	});
 
+	// Reset votes button
+	const resetVotesButton = document.createElement('button');
+	resetVotesButton.innerText = 'Reset votes';
+
+	resetVotesButton.addEventListener('click', () => {
+		character.votes = 0;
+		voteParagraph.innerText = `Votes: 0`;
+	});
+
 	// Attach all elements
-	characterDetailsDiv.appendChild(nameParagraph);
-	characterDetailsDiv.appendChild(imageElement);
-	characterDetailsDiv.appendChild(voteParagraph);
-	characterDetailsDiv.appendChild(addVotesButton);
+	characterDetailsDiv.append(
+		nameParagraph,
+		imageElement,
+		voteParagraph,
+		addVotesButton,
+		resetVotesButton
+	);
 }
