@@ -3,7 +3,9 @@ const headers = {
 	'Content-Type': 'application/json',
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (e) => {
+	e.preventDefault();
+
 	fetchCharacters();
 });
 
@@ -73,17 +75,27 @@ async function renderCharacterDetails(passedCharacter) {
 	// Add votes button
 	const addVotesButton = document.createElement('button');
 	addVotesButton.innerText = 'Add votes';
+	addVotesButton.type = 'button';
 
-	addVotesButton.addEventListener('click', () => {
-		const newVote = (character.votes += 1);
-		voteParagraph.innerText = `Votes: ${newVote}`;
+	addVotesButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+
+		character.votes = character.votes += 1;
+		updateCharacterVotes(character);
+
+		// voteParagraph.innerText = `Votes: ${character.votes}`;
+
+		return false;
 	});
 
 	// Reset votes button
 	const resetVotesButton = document.createElement('button');
 	resetVotesButton.innerText = 'Reset votes';
 
-	resetVotesButton.addEventListener('click', () => {
+	resetVotesButton.addEventListener('click', (e) => {
+		e.preventDefault();
+
 		character.votes = 0;
 		voteParagraph.innerText = `Votes: 0`;
 	});
@@ -96,4 +108,16 @@ async function renderCharacterDetails(passedCharacter) {
 		addVotesButton,
 		resetVotesButton
 	);
+}
+
+// Update the votes of a single character
+function updateCharacterVotes(character) {
+	fetch(`${BASE_URL}/characters/${character.id}`, {
+		method: 'PUT',
+		headers,
+		body: JSON.stringify(character),
+	})
+		.then((res) => res.json())
+		.then((character) => renderCharacterDetails(character))
+		.catch((err) => console.log(err));
 }
