@@ -1,0 +1,15 @@
+#list-characters {
+	padding: 5px;
+}
+
+.list-character-item {
+	width: 150px;
+	height: 20px;
+	border: 1px solid #000;
+	margin: 5px;
+}
+
+.character-image {
+	max-width: 300px;
+	max-height: 300px;
+}
